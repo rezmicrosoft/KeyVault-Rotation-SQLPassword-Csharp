@@ -3,7 +3,7 @@ sql_server_resource_id='/subscriptions/27b750cd-ed43-42fd-9044-8d75e124ae55/reso
 
 az account set -s 27b750cd-ed43-42fd-9044-8d75e124ae55
 
-az group deployment create -g rez-test --template-uri ../arm-templates/azuredeploy.json --parameters @../arm-templates/parameters/rez-test.json
+az group deployment create -g rez-test --template-file ../arm-templates/azuredeploy.json --parameters @../arm-templates/parameters/rez-test.json
 
 expire_on=$(date -u --date='tomorrow' '+%Y-%m-%dT%H:%M:%SZ')
 
