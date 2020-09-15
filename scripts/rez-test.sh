@@ -7,4 +7,4 @@ az group deployment create -g rez-test --template-file ../arm-templates/azuredep
 
 expire_on=$(date -u --date='tomorrow' '+%Y-%m-%dT%H:%M:%SZ')
 
-az keyvault secret set --name sqlAdminPassword --vault-name rez-sqlrotation-kv --value "Simple123" --tags "CredentialId=sqlAdmin" "ProviderAddress=$sql_server_resource_id" "ValidityPeriodDays=90" --expires $expire_on
+az keyvault secret set --name sqlAdminPassword --vault-name rez-sqlrotation-kv --value "Simple123" --tags "CredentialId=rez" "ProviderAddress=$sql_server_resource_id" "ValidityPeriodDays=90" --expires $expire_on
