@@ -22,6 +22,13 @@
             "metadata": {
                 "description": "The name of the secret where sql password is stored."
             }
+        },
+        "repoURL": {
+            "defaultValue": "https://github.com/rezmicrosoft/KeyVault-Rotation-SQLPassword-Csharp.git",
+            "type": "String",
+            "metadata": {
+                "description": "The URL for the GitHub repository that contains the project to deploy."
+            }
         }
   },
   "variables":{  
@@ -102,7 +109,22 @@
                         }
                     ]
                 }
-            }
+            },
+            "resources": [
+                {
+                    "type": "sourcecontrols",
+                    "apiVersion": "2018-11-01",
+                    "name": "web",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', parameters('functionAppName'))]"
+                    ],
+                    "properties": {
+                        "RepoUrl": "[parameters('repoURL')]",
+                        "branch": "master",
+                        "IsManualIntegration": true
+                    }
+                }
+            ]
      },
      {
             "type": "microsoft.insights/components",
