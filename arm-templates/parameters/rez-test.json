@@ -1,0 +1,4 @@
+{
+    "keyVaultName": "rez-sqlrotation-kv",
+    "functionAppName": "rez-test-app"
+}

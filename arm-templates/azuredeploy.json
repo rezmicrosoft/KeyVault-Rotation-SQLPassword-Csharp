@@ -1,14 +1,7 @@
 {  
   "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion":"1.0.0.0",
-  "parameters":{  
-      "sqlServerName": {
-            "defaultValue": "aibrp-int-sqlsrv",
-            "type": "String",
-            "metadata": {
-                "description": "SQL server name with password to rotate."
-            }
-        },
+  "parameters":{
         "keyVaultName": {
             "defaultValue": "aibrp-int-kv",
             "type": "String",
@@ -28,13 +21,6 @@
             "type": "String",
             "metadata": {
                 "description": "The name of the secret where sql password is stored."
-            }
-        },
-        "repoURL": {
-            "defaultValue": "https://github.com/rezmicrosoft/KeyVault-Rotation-SQLPassword-Csharp.git",
-            "type": "String",
-            "metadata": {
-                "description": "The URL for the GitHub repository that contains the project to deploy."
             }
         }
   },

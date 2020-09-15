@@ -32,7 +32,7 @@ namespace Microsoft.KeyVault
 
             //Check Service Provider connection
             CheckServiceConnection(secret);
-            log.LogInformation("Service  Connection Validated");
+            log.LogInformation("Service Connection Validated");
             
             //Create new password
             var randomPassword = CreateRandomPassword();
