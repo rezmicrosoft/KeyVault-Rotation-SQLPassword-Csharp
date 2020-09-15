@@ -39,11 +39,11 @@ namespace Microsoft.KeyVault
             log.LogInformation("New Password Generated");
 
             //Add secret version with new password to Key Vault
-            CreateNewSecretVersion(client, secret, randomPassword);
+            CreateNewSecretVersion(client, secret, "password placeholder");
             log.LogInformation("New Secret Version Generated");
 
             //Update Service Provider with new password
-            UpdateServicePassword(secret, randomPassword);
+            UpdateServicePassword(secret,randomPassword);
             log.LogInformation("Password Changed");
             log.LogInformation($"Secret Rotated Successfully");
         }
@@ -98,7 +98,8 @@ namespace Microsoft.KeyVault
 		    rngCrypt.GetBytes(randomBytes);
 		    return Convert.ToBase64String(randomBytes);
         }
-         private static void CheckServiceConnection(KeyVaultSecret secret)
+         
+        private static void CheckServiceConnection(KeyVaultSecret secret)
         {
             var userId = secret.Properties.Tags.ContainsKey(CredentialIdTag) ? secret.Properties.Tags[CredentialIdTag] : "";
             var dbResourceId = secret.Properties.Tags.ContainsKey(ProviderAddressTag) ? secret.Properties.Tags[ProviderAddressTag] : "";
