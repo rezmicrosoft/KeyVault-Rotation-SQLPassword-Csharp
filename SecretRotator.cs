@@ -39,7 +39,7 @@ namespace Microsoft.KeyVault
             log.LogInformation("New Password Generated");
 
             //Add secret version with new password to Key Vault
-            CreateNewSecretVersion(client, secret, "password placeholder");
+            CreateNewSecretVersion(client, secret, randomPassword);
             log.LogInformation("New Secret Version Generated");
 
             //Update Service Provider with new password
