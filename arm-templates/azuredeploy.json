@@ -53,12 +53,11 @@
         "name":"[concat(parameters('functionAppName'))]",
         "location":"[resourceGroup().location]",
         "sku":{  
-           "name": "Y1",
-           "tier": "Dynamic"
+           "name": "EP1",
+           "tier": "ElasticPremium"
         },
         "properties": {
-                "name": "[parameters('functionAppName')]",
-                "computeMode": "Dynamic"
+                "name": "[parameters('functionAppName')]"
         }
      },
      {
