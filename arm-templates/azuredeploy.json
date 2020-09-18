@@ -9,11 +9,25 @@
                 "description": "Key Vault name where password is stored."
             }
         },        
-        "subnetID": {
-            "defaultValue": "/subscriptions/27b750cd-ed43-42fd-9044-8d75e124ae55/resourceGroups/rez-test/providers/Microsoft.Network/virtualNetworks/rez-test-vnet/subnets/sql-app",
-            "type": "String",
+        "existingVNETName": {
+            "defaultValue": "rez-test-vnet",
+            "type": "string",
             "metadata": {
-                "description": "The subnet that function app will be integrated with"
+                "description": "Name of the VNET to add a subnet to"
+            }
+        },
+        "newSubnetName": {
+            "defaultValue": "sql-app",
+            "type": "string",
+            "metadata": {
+                "description": "Name of the subnet to add"
+            }
+        },
+        "newSubnetAddressPrefix": {
+            "type": "string",
+            "defaultValue": "172.27.1.0/24",
+            "metadata": {
+                "description": "Address space of the subnet to add"
             }
         },
         "functionAppName": {
@@ -43,6 +57,26 @@
 	 "eventSubscriptionName": "[concat(parameters('keyVaultName'),'-',parameters('secretName'),'-',parameters('functionAppName'))]"
   },
   "resources":[
+    {
+        "apiVersion": "2019-06-01",
+        "type": "Microsoft.Network/virtualNetworks/subnets",
+        "name": "[concat(parameters('existingVNETName'), '/', parameters('newSubnetName'))]",
+        "location": "[resourceGroup().location]",
+        "properties": {
+            "addressPrefix": "[parameters('newSubnetAddressPrefix')]",
+            "delegations": [
+                {
+                    "name": "delegation",
+                    "properties": {
+                        "serviceName": "Microsoft.Web/serverFarms",
+                        "actions": [
+                            "Microsoft.Network/virtualNetworks/subnets/action"
+                        ]
+                    }
+                }
+            ]
+        }
+    },
      {
         "type":"Microsoft.Storage/storageAccounts",
         "apiVersion":"2019-04-01",
@@ -56,20 +90,21 @@
      },
      {
         "type":"Microsoft.Web/serverfarms",
-        "apiVersion":"2018-02-01",
+        "apiVersion":"2019-08-01",
         "name":"[concat(parameters('functionAppName'))]",
         "location":"[resourceGroup().location]",
         "sku":{  
            "name": "EP1",
            "tier": "ElasticPremium"
         },
+        "kind": "elastic",
         "properties": {
-                "name": "[parameters('functionAppName')]"
+            "maximumElasticWorkerCount": 20
         }
      },
      {
             "type": "Microsoft.Web/sites",
-            "apiVersion": "2018-11-01",
+            "apiVersion": "2019-08-01",
             "name": "[parameters('functionAppName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
@@ -127,7 +162,7 @@
             "resources": [
                 {
                     "type": "sourcecontrols",
-                    "apiVersion": "2018-11-01",
+                    "apiVersion": "2019-08-01",
                     "name": "web",
                     "dependsOn": [
                         "[resourceId('Microsoft.Web/Sites', parameters('functionAppName'))]"
@@ -146,7 +181,7 @@
                         "[resourceId('Microsoft.Web/sites', parameters('functionAppName'))]"
                     ],
                     "properties": {
-                        "subnetResourceId": "[parameters('subnetID')]",
+                        "subnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('existingVNETName'), parameters('newSubnetName'))]",
                         "isSwift": true
                     }
                 }
