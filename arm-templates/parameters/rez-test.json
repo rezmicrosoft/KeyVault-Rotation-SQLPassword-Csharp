@@ -7,6 +7,9 @@
       },
       "functionAppName": {
         "value": "rez-test-app"
+      },
+      "subnetID": {
+          "value": "/subscriptions/27b750cd-ed43-42fd-9044-8d75e124ae55/resourceGroups/rez-test/providers/Microsoft.Network/virtualNetworks/rez-test-vnet/subnets/sql-app"
       }
     }
   }

@@ -8,6 +8,13 @@
             "metadata": {
                 "description": "Key Vault name where password is stored."
             }
+        },        
+        "subnetID": {
+            "defaultValue": "/subscriptions/27b750cd-ed43-42fd-9044-8d75e124ae55/resourceGroups/rez-test/providers/Microsoft.Network/virtualNetworks/rez-test-vnet/subnets/sql-app",
+            "type": "String",
+            "metadata": {
+                "description": "The subnet that function app will be integrated with"
+            }
         },
         "functionAppName": {
             "defaultValue": "aib-int-sqlrotation-app",
@@ -105,6 +112,14 @@
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                             "value": "[reference(resourceId('microsoft.insights/components', parameters('functionAppName')), '2018-05-01-preview').InstrumentationKey]"
+                        },
+                        {
+                            "name": "WEBSITE_DNS_SERVER",
+                            "value": "168.63.129.16"
+                        },
+                        {
+                            "name": "WEBSITE_VNET_ROUTE_ALL",
+                            "value": "1"
                         }
                     ]
                 }
@@ -121,6 +136,18 @@
                         "RepoUrl": "[parameters('repoURL')]",
                         "branch": "master",
                         "IsManualIntegration": true
+                    }
+                },
+                {
+                    "type": "networkConfig",
+                    "apiVersion": "2019-08-01",
+                    "name": "virtualNetwork",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', parameters('functionAppName'))]"
+                    ],
+                    "properties": {
+                        "subnetResourceId": "[parameters('subnetID')]",
+                        "isSwift": true
                     }
                 }
             ]
