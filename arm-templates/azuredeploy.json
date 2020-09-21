@@ -79,7 +79,7 @@
     },
      {
         "type":"Microsoft.Storage/storageAccounts",
-        "apiVersion":"2019-04-01",
+        "apiVersion":"2019-06-01",
         "name": "[variables('functionStorageAccountName')]",
         "location":"[resourceGroup().location]",
         "sku":{  
@@ -109,7 +109,8 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('functionAppName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('functionStorageAccountName'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('functionStorageAccountName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('existingVNETName'), parameters('newSubnetName'))]"
             ],
             "kind": "functionapp",
             "identity": {
@@ -142,7 +143,7 @@
                         },
                         {
                             "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                            "value": "~10"
+                            "value": "~12"
                         },
                         {
                             "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
