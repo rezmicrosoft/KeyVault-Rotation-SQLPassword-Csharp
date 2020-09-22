@@ -18,50 +18,22 @@
         }
   },
   "variables":{  
-     "functionStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'azfunctions')]"
+     "functionStorageAccountName": "tf2fdfrp2iyn2azfunctions"
   },
   "resources":[
-     {
-        "type":"Microsoft.Storage/storageAccounts",
-        "apiVersion":"2019-06-01",
-        "name": "[variables('functionStorageAccountName')]",
-        "location":"[resourceGroup().location]",
-        "sku":{  
-           "name":"Standard_LRS",
-           "tier":"Standard"
-        },
-        "kind":"Storage"
-     },
-     {
-        "type":"Microsoft.Web/serverfarms",
-        "apiVersion":"2019-08-01",
-        "name":"[concat(parameters('functionAppName'))]",
-        "location":"[resourceGroup().location]",
-        "sku":{  
-           "name": "EP1",
-           "tier": "ElasticPremium"
-        },
-        "kind": "elastic",
-        "properties": {
-            "maximumElasticWorkerCount": 20
-        }
-     },
      {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2019-08-01",
             "name": "[parameters('functionAppName')]",
             "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('functionAppName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('functionStorageAccountName'))]"
-            ],
+            "dependsOn": [],
             "kind": "functionapp",
             "identity": {
                 "type": "SystemAssigned"
             },
             "properties": {
                 "enabled": true,
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('functionAppName'))]",
+                "serverFarmId": "/subscriptions/27b750cd-ed43-42fd-9044-8d75e124ae55/resourceGroups/rez-test/providers/Microsoft.Web/serverFarms/rez-bugfix-app",
                 "siteConfig": {
                     "appSettings": [
                         {
