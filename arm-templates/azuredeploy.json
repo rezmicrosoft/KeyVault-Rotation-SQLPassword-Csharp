@@ -32,7 +32,7 @@
         }
   },
   "variables":{  
-     "functionStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'azfunctions')]",
+     "functionStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'app')]",
 	 "eventSubscriptionName": "[concat(parameters('keyVaultName'),'-',parameters('secretName'),'-',parameters('functionAppName'))]"
   },
   "resources":[
