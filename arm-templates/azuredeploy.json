@@ -8,20 +8,6 @@
             "metadata": {
                 "description": "Key Vault name where password is stored."
             }
-        },        
-        "existingVNETName": {
-            "defaultValue": "rez-test-vnet",
-            "type": "string",
-            "metadata": {
-                "description": "Name of the VNET to add a subnet to"
-            }
-        },
-        "newSubnetAddressPrefix": {
-            "type": "string",
-            "defaultValue": "172.27.1.0/24",
-            "metadata": {
-                "description": "Address space of the subnet to add"
-            }
         },
         "functionAppName": {
             "defaultValue": "aib-int-sqlrotation-app",
