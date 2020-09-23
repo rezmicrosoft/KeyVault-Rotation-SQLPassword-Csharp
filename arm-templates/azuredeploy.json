@@ -16,13 +16,6 @@
                 "description": "Name of the VNET to add a subnet to"
             }
         },
-        "newSubnetName": {
-            "defaultValue": "sql-app",
-            "type": "string",
-            "metadata": {
-                "description": "Name of the subnet to add"
-            }
-        },
         "newSubnetAddressPrefix": {
             "type": "string",
             "defaultValue": "172.27.1.0/24",
@@ -57,26 +50,6 @@
 	 "eventSubscriptionName": "[concat(parameters('keyVaultName'),'-',parameters('secretName'),'-',parameters('functionAppName'))]"
   },
   "resources":[
-    {
-        "apiVersion": "2019-06-01",
-        "type": "Microsoft.Network/virtualNetworks/subnets",
-        "name": "[concat(parameters('existingVNETName'), '/', parameters('newSubnetName'))]",
-        "location": "[resourceGroup().location]",
-        "properties": {
-            "addressPrefix": "[parameters('newSubnetAddressPrefix')]",
-            "delegations": [
-                {
-                    "name": "delegation",
-                    "properties": {
-                        "serviceName": "Microsoft.Web/serverFarms",
-                        "actions": [
-                            "Microsoft.Network/virtualNetworks/subnets/action"
-                        ]
-                    }
-                }
-            ]
-        }
-    },
      {
         "type":"Microsoft.Storage/storageAccounts",
         "apiVersion":"2019-06-01",
@@ -109,8 +82,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('functionAppName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('functionStorageAccountName'))]",
-                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('existingVNETName'), parameters('newSubnetName'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('functionStorageAccountName'))]"
             ],
             "kind": "functionapp",
             "identity": {
@@ -182,7 +154,7 @@
                         "[resourceId('Microsoft.Web/sites', parameters('functionAppName'))]"
                     ],
                     "properties": {
-                        "subnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('existingVNETName'), parameters('newSubnetName'))]",
+                        "subnetResourceId": "/subscriptions/27b750cd-ed43-42fd-9044-8d75e124ae55/resourceGroups/rez-test/providers/Microsoft.Network/virtualNetworks/rez-test-vnet/subnets/sql-app2",
                         "isSwift": true
                     }
                 }
